@@ -12,7 +12,7 @@ namespace SolarDawn.TempestReader.Tests
             var message = await File.ReadAllTextAsync(@"WebSocketMessages/Acknowledgement.json");
             var ack = JsonSerializer.Deserialize<Acknowledgement>(message);
             ack.Should().NotBeNull();
-            ack.Id.Should().Be("145787");
+            ack!.Id.Should().Be("145787");
             ack.Type.Should().Be(Acknowledgement.MessageType.Trim('\"'));
         }
 

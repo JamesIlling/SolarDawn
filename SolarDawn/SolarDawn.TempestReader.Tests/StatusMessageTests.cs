@@ -15,10 +15,10 @@ public class StatusMessageTests
         statusMessage.Should().NotBeNull();
 
         // Identifier Keys
-        statusMessage.Type.Should().Be(StatusMessage.MessageType.Trim('\"'));
+        statusMessage!.Type.Should().Be(StatusMessage.MessageType.Trim('\"'));
         statusMessage.Source.Should().Be(StatusMessage.SourceText.Trim('\"'));
 
-        statusMessage!.Status.Should().NotBeNull();
+        statusMessage.Status.Should().NotBeNull();
         statusMessage.Status!.Code.Should().Be(0);
         statusMessage.Status.Message.Should().Be("SUCCESS");
         statusMessage.DeviceId.Should().Be(354105);

@@ -11,7 +11,8 @@ public class ObservationTests
     {
         var message = await File.ReadAllTextAsync(@"WebSocketMessages/Observation.json");
         var data = JsonSerializer.Deserialize<List<double?>>(message);
-        var observation = new Observation(data);
+        data.Should().NotBeNull();
+        var observation = new Observation(data!);
         observation.Should().NotBeNull();
 
         observation.OccuredAt.Should().Be(DateTime.UnixEpoch.AddSeconds(1720800882));
@@ -44,7 +45,8 @@ public class ObservationTests
     {
         var message = await File.ReadAllTextAsync(@"WebSocketMessages/Observation.json");
         var data = JsonSerializer.Deserialize<List<double?>>(message);
-        var observation = new Observation(data);
+        data.Should().NotBeNull();
+        var observation = new Observation(data!);
         observation.ToString().Trim().Should().Be("""
                                                   AirTemperature: 19.4
                                                    AverageStrikeDistance: 0
