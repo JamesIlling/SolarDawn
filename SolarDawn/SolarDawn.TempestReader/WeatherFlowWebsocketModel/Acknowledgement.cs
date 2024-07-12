@@ -5,7 +5,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
     /// <summary>
     /// Acknowledgement response message. [type = ack]
     /// </summary>
-    internal class Acknowledgement
+    public class Acknowledgement
     {
         public const string MessageType = "\"ack\"";
 

@@ -75,4 +75,8 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
         /// </summary>
         public Observation FirstObservation => new Observation(Observations[0]);
     }
+
+    internal class Summary
+    {
+    }
 }

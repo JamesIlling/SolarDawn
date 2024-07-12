@@ -26,7 +26,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
             AirTemperature = observation[7] ?? 0;
             RelativeHumidity = (int)(observation[8] ?? 0);
             Illuminance = (int)(observation[9] ?? 0);
-            VU = observation[10] ?? 0;
+            UV = observation[10] ?? 0;
             SolarRadiation = (int)(observation[11] ?? 0);
             RainAccumulation = observation[12] ?? 0;
             PrecipitationType = (Precipitation)(observation[13] ?? -1);
@@ -99,7 +99,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
         /// <summary>
         /// The UV (index).
         /// </summary>
-        public double VU { get; set; }
+        public double UV { get; set; }
 
         /// <summary>
         /// The solar radiation (W/m^2).

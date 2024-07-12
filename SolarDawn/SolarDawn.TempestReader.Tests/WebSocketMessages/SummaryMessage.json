@@ -1,0 +1,27 @@
+{
+  "device_id": 354105,
+  "type": "obs_st",
+  "obs": [ [ 1720800942, 0.0, 0.69, 1.26, 312.0, 3.0, 1004.6, 19.4, 48.0, 10604.0, 0.8, 88.0, 0.0, 0.0, 0.0, 0.0, 2.72, 1.0, 0.0, 0.0, 0.0, 0.0 ] ],
+  "summary": {
+    "pressure_trend": "falling",
+    "strike_count_1h": 0,
+    "strike_count_3h": 0,
+    "precip_total_1h": 0.0,
+    "precip_accum_local_yesterday": 0.0,
+    "precip_analysis_type_yesterday": 0,
+    "feels_like": 19.4,
+    "heat_index": 19.4,
+    "wind_chill": 19.4,
+    "dew_point": 8.1,
+    "wet_bulb_temperature": 13.1,
+    "wet_bulb_globe_temperature": 15.4,
+    "air_density": 1.19625,
+    "delta_t": 6.3,
+    "precip_minutes_local_day": 0,
+    "precip_minutes_local_yesterday": 0
+  },
+  "source": "mqtt",
+  "serial_number": "ST-00144517",
+  "hub_sn": "HB-00155510",
+  "firmware_revision": 176
+}

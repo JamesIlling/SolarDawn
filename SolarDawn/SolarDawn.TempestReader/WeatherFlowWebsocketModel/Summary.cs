@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
 {
     [UsedImplicitly]
-    public class Summary
+    public class StatusMessageSummary
     {
         /// <summary>
         /// Pressure trend.
@@ -74,6 +74,48 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
         /// </summary>
         [JsonPropertyName("heat_index")]
         public double? HeatIndex { get; set; }
+
+        /// <summary>
+        /// The Dew Point
+        /// </summary>
+        [JsonPropertyName("dew_point")]
+        public double? DewPoint { get; set; }
+
+        /// <summary>
+        /// The Dew Point
+        /// </summary>
+        [JsonPropertyName("wet_bulb_temperature")]
+        public double? WetBulbTemperature { get; set; }
+
+        /// <summary>
+        /// The Dew Point
+        /// </summary>
+        [JsonPropertyName("wet_bulb_globe_temperature")]
+        public double? WetBulbGlobeTemperature { get; set; }
+
+        /// <summary>
+        /// The air density
+        /// </summary>
+        [JsonPropertyName("air_density")]
+        public double? AirDensity { get; set; }
+
+        /// <summary>
+        /// The air density
+        /// </summary>
+        [JsonPropertyName("delta_t")]
+        public double? DeltaT { get; set; }
+
+        /// <summary>
+        /// Precipitation analysis type for yesterday.
+        /// </summary>
+        [JsonPropertyName("precip_minutes_local_day")]
+        public int? PrecipitationMinutesToday { get; set; }
+
+        /// <summary>
+        /// Precipitation analysis type for yesterday.
+        /// </summary>
+        [JsonPropertyName("precip_minutes_local_yesterday")]
+        public int? PrecipitationMinutesYesterday { get; set; }
 
         /// <summary>
         /// The wind chill.
