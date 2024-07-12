@@ -7,5 +7,6 @@ public enum Precipitation
 {
     None = 0,
     Rain = 1,
-    Hail = 2
+    Hail = 2,
+    Unknown = -1
 }

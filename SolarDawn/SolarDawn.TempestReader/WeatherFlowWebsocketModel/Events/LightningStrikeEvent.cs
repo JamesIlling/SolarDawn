@@ -12,7 +12,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel.Events
         /// The message type.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public required string Type { get; set; }
 
         /// <summary>
         /// The event data. 
@@ -25,7 +25,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel.Events
         /// Unknown
         /// </remarks>
         [JsonPropertyName("evt")]
-        public List<int> Event { get; set; }
+        public required List<int> Event { get; set; }
 
         /// <summary>
         /// The device id.

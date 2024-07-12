@@ -15,34 +15,36 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
         /// </summary>
         public Observation(IReadOnlyList<double?> observation)
         {
-            Epoch = (int)observation[0];
+
+            Epoch = (int)(observation[0] ?? 0);
             WindLull = observation[1] ?? 0;
             WindAvg = observation[2] ?? 0;
             WindGust = observation[3] ?? 0;
-            WindDirection = (int)observation[4];
-            WindSampleInterval = (int)observation[5];
+            WindDirection = (int)(observation[4] ?? 0);
+            WindSampleInterval = (int)(observation[5] ?? 0);
             Pressure = observation[6] ?? 0;
             AirTemperature = observation[7] ?? 0;
-            RelativeHumidity = (int)observation[8];
-            Illuminance = (int)observation[9];
+            RelativeHumidity = (int)(observation[8] ?? 0);
+            Illuminance = (int)(observation[9] ?? 0);
             VU = observation[10] ?? 0;
-            SolarRadiation = (int)observation[11];
+            SolarRadiation = (int)(observation[11] ?? 0);
             RainAccumulation = observation[12] ?? 0;
-            PrecipitationType = (Precipitation)observation[13];
-            AverageStrikeDistance = (int)observation[14];
-            StrikeCount = (int)observation[15];
+            PrecipitationType = (Precipitation)(observation[13] ?? -1);
+            AverageStrikeDistance = (int)(observation[14] ?? 0);
+            StrikeCount = (int)(observation[15] ?? 0);
             Battery = observation[16] ?? 0;
-            ReportInterval = (int)observation[17];
+            ReportInterval = (int)(observation[17] ?? 1);
             LocalDayRainAccumulation = observation[18] ?? 0;
             RainAccumulationFinal = observation[19] ?? 0;
             LocalDayRainAccumulationFinal = observation[20] ?? 0;
-            PrecipitationAnalysisType = (PrecipitationAnalysis)observation[21];
+
+            PrecipitationAnalysisType = (PrecipitationAnalysis)(observation[21] ?? -1);
         }
 
         /// <summary>
         /// The Epoch (Seconds UTC).
         /// </summary>
-        public int Epoch { get; set; }
+        private int Epoch { get; set; }
 
         /// <summary>
         /// The time at which the observation occured at.

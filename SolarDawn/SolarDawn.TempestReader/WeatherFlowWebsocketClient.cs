@@ -23,6 +23,8 @@ public class WeatherFlowWebsocketClient
         _forwarder = forwarder;
     }
 
+    private const string ReceivedMessage = "Received {msg}";
+
     public void Listen(Uri remoteClient, int deviceId, int stationId)
     {
         _logger.LogDebug("{url}-{deviceId}-{stationId}", remoteClient, deviceId, stationId);
@@ -50,7 +52,7 @@ public class WeatherFlowWebsocketClient
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogCritical(ex.Message);
+                    _logger.LogCritical(ex, "Unable to connect to WeatherFlow.");
                 }
             });
 
@@ -70,8 +72,7 @@ public class WeatherFlowWebsocketClient
                 .Synchronize(gate)
                 .Subscribe(msg =>
                 {
-                    _logger.LogDebug("{msg}", msg);
-                    var connectionOpen = JsonSerializer.Deserialize<ConnectionOpenEvent>(msg.Text ?? string.Empty);
+                    _logger.LogDebug(ReceivedMessage, msg);
                     _logger.LogInformation("Connection Opened");
                 });
 
@@ -81,11 +82,14 @@ public class WeatherFlowWebsocketClient
                 .Synchronize(gate)
                 .Subscribe(msg =>
                 {
-                    _logger.LogDebug("{msg}", msg);
+                    _logger.LogDebug(ReceivedMessage, msg);
                     var ack = JsonSerializer.Deserialize<Acknowledgement>(msg.Text ?? string.Empty);
-                    var stationDevice = ack.Id.Equals(stationId.ToString()) ? "station" : "device";
-                    _logger.LogInformation("Start/Stop Listening for {station_or_device_id}: {acknowledgement_id}",
-                        stationDevice, ack.Id);
+                    if (ack != null)
+                    {
+                        var stationDevice = ack.Id.Equals(stationId.ToString()) ? "station" : "device";
+                        _logger.LogInformation("Start/Stop Listening for {station_or_device_id}: {acknowledgement_id}",
+                            stationDevice, ack.Id);
+                    }
                 });
 
             client.MessageReceived
@@ -96,10 +100,12 @@ public class WeatherFlowWebsocketClient
                 .Synchronize(gate)
                 .Subscribe(msg =>
                 {
-                    _logger.LogDebug("{msg}", msg);
+                    _logger.LogDebug(ReceivedMessage, msg);
                     var message = JsonSerializer.Deserialize<StatusMessage>(msg.Text ?? string.Empty);
-                    _logger.LogDebug("{msg}", message.FirstObservation);
-                    _forwarder.ProcessObservation(message.FirstObservation);
+                    if (message != null)
+                    {
+                        _forwarder.ProcessObservation(message.FirstObservation);
+                    }
                 });
 
             client.MessageReceived
@@ -110,10 +116,12 @@ public class WeatherFlowWebsocketClient
                 .Synchronize(gate)
                 .Subscribe(msg =>
                 {
-                    _logger.LogDebug("{msg}", msg);
+                    _logger.LogDebug(ReceivedMessage, msg);
                     var message = JsonSerializer.Deserialize<SummaryMessage>(msg.Text ?? string.Empty);
-                    _logger.LogDebug("{msg}", message.FirstObservation);
-                    _forwarder.ProcessObservation(message.FirstObservation);
+                    if (message != null)
+                    {
+                        _forwarder.ProcessObservation(message.FirstObservation);
+                    }
 
                 });
 
@@ -124,11 +132,14 @@ public class WeatherFlowWebsocketClient
                 .Synchronize(gate)
                 .Subscribe(msg =>
                 {
-                    _logger.LogDebug("{msg}", msg);
+                    _logger.LogDebug(ReceivedMessage, msg);
                     var lightningStrikeEvent =
                         JsonSerializer.Deserialize<LightningStrikeEvent>(msg.Text ?? string.Empty);
-                    _logger.LogInformation("Lightning strike event occured at {time}, {distance}km away",
-                        lightningStrikeEvent.OccuredAt.ToString(TimeFormat), lightningStrikeEvent.Distance);
+                    if (lightningStrikeEvent != null)
+                    {
+                        _logger.LogInformation("Lightning strike event occured at {time}, {distance}km away",
+                            lightningStrikeEvent.OccuredAt.ToString(TimeFormat), lightningStrikeEvent.Distance);
+                    }
                 });
 
             client.MessageReceived
@@ -137,9 +148,13 @@ public class WeatherFlowWebsocketClient
                 .Synchronize(gate)
                 .Subscribe(msg =>
                 {
-                    _logger.LogDebug("{msg}", msg);
+                    _logger.LogDebug(ReceivedMessage, msg);
                     var rainStartEvent = JsonSerializer.Deserialize<RainStartEvent>(msg.Text ?? string.Empty);
-                    _logger.LogInformation("Rain event occured {time}", rainStartEvent.OccuredAt.ToString(TimeFormat));
+                    if (rainStartEvent != null)
+                    {
+                        _logger.LogInformation("Rain event occured {time}",
+                            rainStartEvent.OccuredAt.ToString(TimeFormat));
+                    }
                 });
 
             client.MessageReceived
@@ -148,7 +163,7 @@ public class WeatherFlowWebsocketClient
                 .Synchronize(gate)
                 .Subscribe(msg =>
                 {
-                    _logger.LogDebug("{msg}", msg);
+                    _logger.LogDebug(ReceivedMessage, msg);
                     _logger.LogInformation("Station Online");
                 });
 
@@ -158,7 +173,7 @@ public class WeatherFlowWebsocketClient
                 .Synchronize(gate)
                 .Subscribe(msg =>
                 {
-                    _logger.LogDebug("{msg}", msg);
+                    _logger.LogDebug(ReceivedMessage, msg);
                     _logger.LogInformation("Station Offline");
                 });
 

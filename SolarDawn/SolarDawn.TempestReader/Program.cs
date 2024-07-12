@@ -1,15 +1,14 @@
-﻿using System.Net.Http.Json;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SolarDawn.ServiceDefaults;
-using SolarDawn.Shared;
-using SolarDawn.TempestReader.WeatherFlowWebsocketModel;
+using Microsoft.Extensions.Http;
 
 namespace SolarDawn.TempestReader
 {
-    internal class Program
+    public static class Program
     {
         static void Main(string[] args)
         {
@@ -22,7 +21,7 @@ namespace SolarDawn.TempestReader
             var stationId = hostBuilder.Configuration.GetValue<int>("STATION_ID");
             var serviceProvider = hostBuilder.Services.BuildServiceProvider();
 
-            var client = serviceProvider.GetService<WeatherFlowWebsocketClient>();
+            var client = serviceProvider.GetRequiredService<WeatherFlowWebsocketClient>();
 
             var uri = new Uri($"wss://ws.weatherflow.com/swd/data?token={token}");
 
@@ -31,17 +30,20 @@ namespace SolarDawn.TempestReader
 
 
 
-        private static IHostApplicationBuilder CreateHostBuilder(string[] args)
+        private static HostApplicationBuilder CreateHostBuilder(string[] args)
         {
             var host = new HostApplicationBuilder(args);
             host.AddServiceDefaults();
 
             host.Services.AddHttpClient<MessageForwarder>(x => x.BaseAddress = new Uri("https+http://apiservice"));
+            host.Services.RemoveAll<IHttpMessageHandlerBuilderFilter>();
+
             host.Services.AddSingleton<WeatherFlowWebsocketClient>();
             host.Services.AddLogging(x =>
             {
                 x.AddConsole();
-                x.AddFilter(level => true);
+
+                x.AddFilter((category, level) => category != "Polly");
             });
 
             return host;

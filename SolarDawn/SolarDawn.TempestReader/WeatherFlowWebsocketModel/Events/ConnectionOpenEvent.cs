@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 
 namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel.Events
 {
+    [UsedImplicitly]
     public class ConnectionOpenEvent
     {
         public const string MessageType = "\"evt_strike\"";
@@ -14,6 +11,6 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel.Events
         /// The message type.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public required string Type { get; set; }
     }
 }

@@ -11,25 +11,25 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
     class SummaryMessage
     {
         public const string MessageType = "\"obs_st\"";
-        public const string SourceText= "\"mqtt\"";
+        public const string SourceText = "\"mqtt\"";
 
         /// <summary>
         /// The summary.
         /// </summary>
         [JsonPropertyName("summary")]
-        public Summary Summary { get; set; }
+        public Summary? Summary { get; set; }
 
         /// <summary>
         /// The device serial number.
         /// </summary>
         [JsonPropertyName("serial_number")]
-        public string SerialNumber { get; set; }
+        public string? SerialNumber { get; set; }
 
         /// <summary>
         /// The hub serial number.
         /// </summary>
         [JsonPropertyName("hub_sn")]
-        public string HubSerialNumber { get; set; }
+        public string? HubSerialNumber { get; set; }
 
         /// <summary>
         /// The message type.
@@ -38,7 +38,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
         /// i.e. "type":"obs_st"
         /// </remarks>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public required string Type { get; set; }
 
         /// <summary>
         /// The source.
@@ -47,7 +47,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
         /// i.e. "source":"mqtt"
         /// </remarks>
         [JsonPropertyName("source")]
-        public string Source { get; set; }
+        public required string Source { get; set; }
 
         /// <summary>
         /// A list of observations.
@@ -56,19 +56,19 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
         /// i.e. "obs":[[1597160776,1.03,1.48,1.92,27,3,993.6,26.3,84,50991,3.63,425,0.0,0,35,1,2.61,1,2.307425,null,null,0]]
         /// </remarks>
         [JsonPropertyName("obs")]
-        public List<List<double?>> Observations { get; set; }
+        public required List<List<double?>> Observations { get; set; }
 
         /// <summary>
         /// The device id.
         /// </summary>
         [JsonPropertyName("device_id")]
-        public int DeviceId { get; set; }
+        public int? DeviceId { get; set; }
 
         /// <summary>
         /// The firmware revision.
         /// </summary>
         [JsonPropertyName("firmware_revision")]
-        public int FirmwareRevision { get; set; }
+        public int? FirmwareRevision { get; set; }
 
         /// <summary>
         /// The first observation in observations.

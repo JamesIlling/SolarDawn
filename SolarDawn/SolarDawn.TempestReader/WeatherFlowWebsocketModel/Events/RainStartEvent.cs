@@ -27,25 +27,25 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel.Events
         /// i.e. "source":"mqtt" - not exactly sure what this is.
         /// </remarks>
         [JsonPropertyName("source")]
-        public string Source { get; set; }
+        public required string Source { get; set; }
 
         /// <summary>
         /// The device serial number.
         /// </summary>
         [JsonPropertyName("serial_number")]
-        public string SerialNumber { get; set; }
+        public string? SerialNumber { get; set; }
 
         /// <summary>
         /// The message type.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public required string Type { get; set; }
 
         /// <summary>
         /// The hub serial number.
         /// </summary>
         [JsonPropertyName("hub_sn")]
-        public string HubSerialNumber { get; set; }
+        public string? HubSerialNumber { get; set; }
 
         /// <summary>
         /// The event data.
@@ -54,7 +54,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel.Events
         /// i.e. "evt": [1597166429] which I believe is the time Epoch in seconds. (32bit)
         /// </remarks>
         [JsonPropertyName("evt")]
-        public List<int> Event { get; set; }
+        public required List<int> Event { get; set; }
 
         /// <summary>
         /// The time at which the rain event occured at.

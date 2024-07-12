@@ -7,5 +7,6 @@ public enum PrecipitationAnalysis
 {
     None = 0,
     RainCheckWithUserDisplayOn = 1,
-    RainCheckWithUserDisplayOff = 2
+    RainCheckWithUserDisplayOff = 2,
+    Unknown = -1
 }

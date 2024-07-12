@@ -1,19 +1,25 @@
-using Aspire.Hosting;
+using YamlDotNet.Core.Tokens;
 
-var builder = DistributedApplication.CreateBuilder(args);
+public static class Program
+{
+    public static async Task Main(string[] args)
+    {
+        var builder = DistributedApplication.CreateBuilder(args);
 
-var apiService = builder.AddProject<Projects.SolarDawn_ApiService>("apiservice")
-    .WithExternalHttpEndpoints();
+        var apiService = builder.AddProject<Projects.SolarDawn_ApiService>("apiservice")
+            .WithExternalHttpEndpoints();
 
-builder.AddProject<Projects.SolarDawn_Web>("webfrontend")
-    .WithExternalHttpEndpoints()
-    .WithReference(apiService);
+        builder.AddProject<Projects.SolarDawn_Web>("webfrontend")
+            .WithExternalHttpEndpoints()
+            .WithReference(apiService);
 
-builder.AddProject<Projects.SolarDawn_TempestReader>("tempest-reader")
-    .WithHttpsEndpoint()
-    .WithReference(apiService)
-    .WithEnvironment("TOKEN", "7cda791a-a7d4-4b5f-9d27-8ecfc0e57a74")
-    .WithEnvironment("DEVICE_ID", "354105")
-    .WithEnvironment("STATION_ID", "145787");
+        builder.AddProject<Projects.SolarDawn_TempestReader>("tempest-reader")
+            .WithHttpsEndpoint()
+            .WithReference(apiService)
+            .WithEnvironment("TOKEN", builder.Configuration["tempest-token"])
+            .WithEnvironment("DEVICE_ID", builder.Configuration["tempest-device-id"])
+            .WithEnvironment("STATION_ID", builder.Configuration["tempest-station-id"]);
 
-builder.Build().Run();
+        await builder.Build().RunAsync();
+    }
+}
