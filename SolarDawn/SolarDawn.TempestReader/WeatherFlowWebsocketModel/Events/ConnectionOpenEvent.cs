@@ -6,7 +6,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel.Events
     [UsedImplicitly]
     public class ConnectionOpenEvent
     {
-        public const string MessageType = "\"evt_strike\"";
+        public const string MessageType = "\"connection_opened\"";
         /// <summary>
         /// The message type.
         /// </summary>

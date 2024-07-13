@@ -34,10 +34,9 @@ namespace SolarDawn.TempestReader
         {
             var host = new HostApplicationBuilder(args);
             host.AddServiceDefaults();
-
-            host.Services.AddHttpClient<MessageForwarder>(x => x.BaseAddress = new Uri("https+http://apiservice"));
+            host.Services.AddHttpClient<IProcessObservation, MessageForwarder>(client => client.BaseAddress = new Uri("https+http://apiservice"));
             host.Services.RemoveAll<IHttpMessageHandlerBuilderFilter>();
-
+            host.Services.AddSingleton<MessageHandler>();
             host.Services.AddSingleton<WeatherFlowWebsocketClient>();
             host.Services.AddLogging(x =>
             {

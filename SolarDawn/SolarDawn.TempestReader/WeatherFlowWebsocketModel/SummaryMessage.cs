@@ -8,7 +8,7 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
     /// <remarks>
     /// {"summary":{"pressure_trend":"steady","strike_count_1h":6,"strike_count_3h":6,"precip_total_1h":0.0,"strike_last_dist":37,"strike_last_epoch":1597160656,"precip_accum_local_yesterday":0.0,"precip_accum_local_yesterday_final":0.0,"precip_analysis_type_yesterday":1,"feels_like":26.2,"heat_index":26.2,"wind_chill":26.2},"serial_number":"ST-00012575","hub_sn":"HB-00028109","type":"obs_st","source":"mqtt","obs":[[1597160716,0.49,0.98,1.43,40,3,993.6,26.2,84,49795,3.57,415,0.0,0,0,0,2.61,1,2.307425,null,null,0]],"device_id":79424,"firmware_revision":134}
     /// </remarks>
-    class SummaryMessage
+    public class SummaryMessage : IObservation
     {
         public const string MessageType = "\"obs_st\"";
         public const string SourceText = "\"mqtt\"";
@@ -74,9 +74,5 @@ namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel
         /// The first observation in observations.
         /// </summary>
         public Observation FirstObservation => new Observation(Observations[0]);
-    }
-
-    internal class Summary
-    {
     }
 }

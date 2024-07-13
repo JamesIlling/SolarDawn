@@ -12,18 +12,21 @@ namespace SolarDawn.TempestReader;
 // Base was taken from https://github.com/tgolla/DotNetWeatherFlowTempestAPIWebsocketExample/tree/master
 public class WeatherFlowWebsocketClient
 {
-    private const string TimeFormat = "u";
+
     private readonly ILogger<WeatherFlowWebsocketClient> _logger;
-    private readonly MessageForwarder _forwarder;
+    private readonly MessageHandler _handler;
 
 
-    public WeatherFlowWebsocketClient(ILogger<WeatherFlowWebsocketClient> logger, MessageForwarder forwarder)
+    public WeatherFlowWebsocketClient(ILogger<WeatherFlowWebsocketClient> logger, MessageHandler handler)
     {
         _logger = logger;
-        _forwarder = forwarder;
+        _handler = handler;
     }
 
-    private const string ReceivedMessage = "Received {msg}";
+
+
+
+
 
     public void Listen(Uri remoteClient, int deviceId, int stationId)
     {
@@ -70,27 +73,13 @@ public class WeatherFlowWebsocketClient
                 .Where(msg => msg.Text?.Contains(ConnectionOpenEvent.MessageType) ?? false)
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
-                .Subscribe(msg =>
-                {
-                    _logger.LogDebug(ReceivedMessage, msg);
-                    _logger.LogInformation("Connection Opened");
-                });
+                .Subscribe(_handler.ConnectionOpenHandler);
 
             client.MessageReceived
                 .Where(msg => msg.Text?.Contains(Acknowledgement.MessageType) ?? false)
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
-                .Subscribe(msg =>
-                {
-                    _logger.LogDebug(ReceivedMessage, msg);
-                    var ack = JsonSerializer.Deserialize<Acknowledgement>(msg.Text ?? string.Empty);
-                    if (ack != null)
-                    {
-                        var stationDevice = ack.Id.Equals(stationId.ToString()) ? "station" : "device";
-                        _logger.LogInformation("Start/Stop Listening for {station_or_device_id}: {acknowledgement_id}",
-                            stationDevice, ack.Id);
-                    }
-                });
+                .Subscribe(msg => _handler.AcknowledgementHandler(msg, stationId));
 
             client.MessageReceived
                 .Where(msg =>
@@ -98,15 +87,7 @@ public class WeatherFlowWebsocketClient
                     (msg.Text?.Contains(StatusMessage.SourceText) ?? false))
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
-                .Subscribe(msg =>
-                {
-                    _logger.LogDebug(ReceivedMessage, msg);
-                    var message = JsonSerializer.Deserialize<StatusMessage>(msg.Text ?? string.Empty);
-                    if (message != null)
-                    {
-                        _forwarder.ProcessObservation(message.FirstObservation);
-                    }
-                });
+                .Subscribe(_handler.Observation<StatusMessage>);
 
             client.MessageReceived
                 .Where(msg =>
@@ -114,68 +95,31 @@ public class WeatherFlowWebsocketClient
                     (msg.Text?.Contains(SummaryMessage.SourceText) ?? false))
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
-                .Subscribe(msg =>
-                {
-                    _logger.LogDebug(ReceivedMessage, msg);
-                    var message = JsonSerializer.Deserialize<SummaryMessage>(msg.Text ?? string.Empty);
-                    if (message != null)
-                    {
-                        _forwarder.ProcessObservation(message.FirstObservation);
-                    }
-
-                });
-
+                .Subscribe(_handler.Observation<SummaryMessage>);
 
             client.MessageReceived
                 .Where(msg => msg.Text?.Contains(LightningStrikeEvent.MessageType) ?? false)
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
-                .Subscribe(msg =>
-                {
-                    _logger.LogDebug(ReceivedMessage, msg);
-                    var lightningStrikeEvent =
-                        JsonSerializer.Deserialize<LightningStrikeEvent>(msg.Text ?? string.Empty);
-                    if (lightningStrikeEvent != null)
-                    {
-                        _logger.LogInformation("Lightning strike event occured at {time}, {distance}km away",
-                            lightningStrikeEvent.OccuredAt.ToString(TimeFormat), lightningStrikeEvent.Distance);
-                    }
-                });
+                .Subscribe(_handler.LightningStrikeEventHandler);
 
             client.MessageReceived
                 .Where(msg => msg.Text?.Contains(RainStartEvent.MessageType) ?? false)
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
-                .Subscribe(msg =>
-                {
-                    _logger.LogDebug(ReceivedMessage, msg);
-                    var rainStartEvent = JsonSerializer.Deserialize<RainStartEvent>(msg.Text ?? string.Empty);
-                    if (rainStartEvent != null)
-                    {
-                        _logger.LogInformation("Rain event occured {time}",
-                            rainStartEvent.OccuredAt.ToString(TimeFormat));
-                    }
-                });
+                .Subscribe(_handler.RainStartEventHandler);
 
             client.MessageReceived
                 .Where(msg => msg.Text?.Contains("\"evt_station_online\"") ?? false)
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
-                .Subscribe(msg =>
-                {
-                    _logger.LogDebug(ReceivedMessage, msg);
-                    _logger.LogInformation("Station Online");
-                });
+                .Subscribe(_handler.StationOnlineEventHandler);
 
             client.MessageReceived
                 .Where(msg => msg.Text?.Contains("\"evt_station_offline\"") ?? false)
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
-                .Subscribe(msg =>
-                {
-                    _logger.LogDebug(ReceivedMessage, msg);
-                    _logger.LogInformation("Station Offline");
-                });
+                .Subscribe(_handler.StationOfflineEventHandler);
 
 
             client.Start();

@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace SolarDawn.TempestReader
 {
-    public class MessageForwarder
+    public class MessageForwarder : IProcessObservation
     {
         private readonly ILogger<MessageForwarder> _logger;
         private readonly HttpClient _client;
@@ -34,5 +34,10 @@ namespace SolarDawn.TempestReader
                 _client.PostAsync(uri, JsonContent.Create(obs)).GetAwaiter().GetResult();
             }
         }
+    }
+
+    public interface IProcessObservation
+    {
+        void ProcessObservation(Observation observation);
     }
 }
