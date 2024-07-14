@@ -3,21 +3,20 @@ using Xunit.Abstractions;
 
 namespace SolarDawn.TempestReader.Tests;
 
-public class TestLogger<T> : ILogger<T>, IDisposable
+public class TestLogger<T> : ILogger<T>
 {
-    private ITestOutputHelper _output;
+    private readonly ITestOutputHelper _output;
+
+    public readonly List<Tuple<LogLevel, string>> Messages = [];
 
     public TestLogger(ITestOutputHelper output)
     {
         _output = output;
-
     }
-
-    public List<Tuple<LogLevel, string>> Messages = [];
 
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull
     {
-        return this;
+        throw new NotImplementedException();
     }
 
     public bool IsEnabled(LogLevel logLevel)
@@ -25,14 +24,10 @@ public class TestLogger<T> : ILogger<T>, IDisposable
         return true;
     }
 
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
+        Func<TState, Exception?, string> formatter)
     {
-        Messages.Add(new Tuple<LogLevel, string>(logLevel, state.ToString()));
+        Messages.Add(new Tuple<LogLevel, string>(logLevel, state?.ToString() ?? string.Empty));
         _output.WriteLine($"{logLevel}: {state}");
-    }
-
-    public void Dispose()
-    {
-
     }
 }

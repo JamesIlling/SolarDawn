@@ -12,21 +12,15 @@ namespace SolarDawn.TempestReader;
 // Base was taken from https://github.com/tgolla/DotNetWeatherFlowTempestAPIWebsocketExample/tree/master
 public class WeatherFlowWebsocketClient
 {
-
-    private readonly ILogger<WeatherFlowWebsocketClient> _logger;
     private readonly MessageHandler _handler;
 
+    private readonly ILogger<WeatherFlowWebsocketClient> _logger;
 
     public WeatherFlowWebsocketClient(ILogger<WeatherFlowWebsocketClient> logger, MessageHandler handler)
     {
         _logger = logger;
         _handler = handler;
     }
-
-
-
-
-
 
     public void Listen(Uri remoteClient, int deviceId, int stationId)
     {
@@ -120,7 +114,6 @@ public class WeatherFlowWebsocketClient
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Synchronize(gate)
                 .Subscribe(_handler.StationOfflineEventHandler);
-
 
             client.Start();
 

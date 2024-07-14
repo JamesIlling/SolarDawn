@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Numerics;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using SolarDawn.TempestReader.WeatherFlowWebsocketModel;
 using SolarDawn.TempestReader.WeatherFlowWebsocketModel.Events;
@@ -73,7 +74,7 @@ public class MessageHandler
         }
     }
 
-    public void Observation<T>(ResponseMessage message) where T : IObservation
+    public void Observation<T>(ResponseMessage message) where T : class, IObservation
     {
         _logger.LogDebug(ReceivedMessage, message);
         var processedMessage = JsonSerializer.Deserialize<T>(message.Text ?? string.Empty);

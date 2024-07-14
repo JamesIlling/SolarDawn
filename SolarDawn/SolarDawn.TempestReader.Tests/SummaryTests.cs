@@ -15,7 +15,7 @@ public class SummaryTests
         summary.Should().NotBeNull();
 
         summary.Should().NotBeNull();
-        summary.PressureTrend.Should().Be("falling");
+        summary!.PressureTrend.Should().Be("falling");
         summary.OneHourLightningStrikeCount.Should().Be(0);
         summary.ThreeHourLightningStrikeCount.Should().Be(0);
         summary.OneHourPrecipitationTotal.Should().Be(0.0);

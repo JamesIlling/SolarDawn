@@ -35,9 +35,4 @@ namespace SolarDawn.TempestReader
             }
         }
     }
-
-    public interface IProcessObservation
-    {
-        void ProcessObservation(Observation observation);
-    }
 }
