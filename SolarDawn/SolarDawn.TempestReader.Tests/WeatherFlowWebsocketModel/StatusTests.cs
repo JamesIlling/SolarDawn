@@ -2,7 +2,7 @@
 using System.Text.Json;
 using FluentAssertions;
 
-namespace SolarDawn.TempestReader.Tests
+namespace SolarDawn.TempestReader.Tests.WeatherFlowWebsocketModel
 {
     public class StatusTests
     {

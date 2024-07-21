@@ -7,7 +7,7 @@ using Websocket.Client;
 
 namespace SolarDawn.TempestReader;
 
-public class MessageHandler
+public class MessageHandler : IMessageHandler
 {
     private const string TimeFormat = "u";
     private const string ReceivedMessage = "Received {msg}";

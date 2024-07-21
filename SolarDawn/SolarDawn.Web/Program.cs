@@ -1,9 +1,10 @@
 using SolarDawn.ServiceDefaults;
 using SolarDawn.Web.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SolarDawn.Web
 {
-
+    [ExcludeFromCodeCoverage]
     public static class Program
     {
         public static async Task Main(string[] args)
@@ -46,6 +47,7 @@ namespace SolarDawn.Web
                 .AddInteractiveServerRenderMode();
 
             app.MapDefaultEndpoints();
+
 
             await app.RunAsync();
         }

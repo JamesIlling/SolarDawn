@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace SolarDawn.TempestReader.Tests
+namespace SolarDawn.TempestReader.Tests.Helpers
 {
     internal class TestHttpMessageHandler : HttpMessageHandler
     {

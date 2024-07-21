@@ -1,7 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
 using SolarDawn.ServiceDefaults;
 
 namespace SolarDawn.ApiService;
-
+[ExcludeFromCodeCoverage]
 public static class Program
 {
 
@@ -19,8 +20,11 @@ public static class Program
 
         // Configure the HTTP request pipeline.
         app.UseExceptionHandler();
+
         app.MapControllers();
+
         app.MapDefaultEndpoints();
+
 
         app.Run();
 

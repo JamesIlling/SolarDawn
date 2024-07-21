@@ -3,6 +3,7 @@ using System.Text.Json;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using SolarDawn.Shared;
+using SolarDawn.TempestReader.Tests.Helpers;
 using SolarDawn.TempestReader.WeatherFlowWebsocketModel;
 using Xunit.Abstractions;
 
@@ -17,7 +18,7 @@ namespace SolarDawn.TempestReader.Tests
             _outputHelper = outputHelper;
         }
 
-        static readonly JsonSerializerOptions _jsonSerializerOptions = new(JsonSerializerOptions.Default)
+        static readonly JsonSerializerOptions JsonSerializerOptions = new(JsonSerializerOptions.Default)
         {
             PropertyNameCaseInsensitive = true
         };
@@ -30,9 +31,7 @@ namespace SolarDawn.TempestReader.Tests
                 return false;
             }
 
-
-
-            var json = JsonSerializer.Deserialize<WeatherObservation>(jsonText, _jsonSerializerOptions);
+            var json = JsonSerializer.Deserialize<WeatherObservation>(jsonText, JsonSerializerOptions);
             if (json == null)
             {
                 return false;

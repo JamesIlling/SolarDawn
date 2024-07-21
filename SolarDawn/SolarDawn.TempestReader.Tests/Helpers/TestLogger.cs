@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace SolarDawn.TempestReader.Tests;
+namespace SolarDawn.TempestReader.Tests.Helpers;
 
 public class TestLogger<T> : ILogger<T>
 {
