@@ -41,8 +41,14 @@ public class WebsocketClientWrapper : IWebsocketClient
         _client.Start();
     }
 
-    public void Dispose()
+    protected virtual void Dispose(bool disposing)
     {
         _client.Dispose();
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

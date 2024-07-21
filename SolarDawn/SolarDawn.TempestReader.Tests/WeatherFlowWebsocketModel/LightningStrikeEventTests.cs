@@ -12,8 +12,8 @@ namespace SolarDawn.TempestReader.Tests.WeatherFlowWebsocketModel
         {
             var message = await File.ReadAllTextAsync(@"WebSocketMessages/LightningStrikeEvent.json");
             var lightningStrikeEvent = JsonSerializer.Deserialize<LightningStrikeEvent>(message);
-
-            lightningStrikeEvent.OccuredAt.Should().Be(new DateTime(2017, 04, 27, 19, 47, 25));
+            lightningStrikeEvent.Should().NotBeNull();
+            lightningStrikeEvent!.OccuredAt.Should().Be(new DateTime(2017, 04, 27, 19, 47, 25));
 
         }
 
@@ -22,8 +22,8 @@ namespace SolarDawn.TempestReader.Tests.WeatherFlowWebsocketModel
         {
             var message = await File.ReadAllTextAsync(@"WebSocketMessages/LightningStrikeEvent.json");
             var lightningStrikeEvent = JsonSerializer.Deserialize<LightningStrikeEvent>(message);
-
-            lightningStrikeEvent.DeviceId.Should().Be(1110);
+            lightningStrikeEvent.Should().NotBeNull();
+            lightningStrikeEvent!.DeviceId.Should().Be(1110);
 
         }
 
@@ -32,8 +32,8 @@ namespace SolarDawn.TempestReader.Tests.WeatherFlowWebsocketModel
         {
             var message = await File.ReadAllTextAsync(@"WebSocketMessages/LightningStrikeEvent.json");
             var lightningStrikeEvent = JsonSerializer.Deserialize<RainStartEvent>(message);
-
-            lightningStrikeEvent.Type.Should().Be(LightningStrikeEvent.MessageType.Trim('\"'));
+            lightningStrikeEvent.Should().NotBeNull();
+            lightningStrikeEvent!.Type.Should().Be(LightningStrikeEvent.MessageType.Trim('\"'));
 
         }
 
@@ -42,8 +42,8 @@ namespace SolarDawn.TempestReader.Tests.WeatherFlowWebsocketModel
         {
             var message = await File.ReadAllTextAsync(@"WebSocketMessages/LightningStrikeEvent.json");
             var lightningStrikeEvent = JsonSerializer.Deserialize<LightningStrikeEvent>(message);
-
-            lightningStrikeEvent.Distance.Should().Be(27);
+            lightningStrikeEvent.Should().NotBeNull();
+            lightningStrikeEvent!.Distance.Should().Be(27);
 
         }
 
@@ -52,8 +52,8 @@ namespace SolarDawn.TempestReader.Tests.WeatherFlowWebsocketModel
         {
             var message = await File.ReadAllTextAsync(@"WebSocketMessages/LightningStrikeEvent.json");
             var lightningStrikeEvent = JsonSerializer.Deserialize<LightningStrikeEvent>(message);
-
-            lightningStrikeEvent.Energy.Should().Be(3848);
+            lightningStrikeEvent.Should().NotBeNull();
+            lightningStrikeEvent!.Energy.Should().Be(3848);
 
         }
 

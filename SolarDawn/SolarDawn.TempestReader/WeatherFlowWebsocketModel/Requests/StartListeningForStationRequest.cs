@@ -1,9 +1,9 @@
 ﻿namespace SolarDawn.TempestReader.WeatherFlowWebsocketModel.Requests;
 
-public record StartListeningForStationRequest(string type, int station_id, string id)
+public record StartListeningForStationRequest(string Type, int StationId, string Id)
 {
     public override string ToString()
     {
-        return $"{{ type = {type}, station_id = {station_id}, id = {id} }}";
+        return $"{{ type = {Type}, station_id = {StationId}, id = {Id} }}";
     }
 }

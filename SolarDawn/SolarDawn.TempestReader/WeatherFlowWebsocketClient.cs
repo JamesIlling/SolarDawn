@@ -152,8 +152,9 @@ public class WeatherFlowWebsocketClient : IDisposable
         _started = false;
     }
 
-    public void Dispose()
+    protected virtual void Dispose(bool disposing)
     {
+
         if (_websocketClient != null &&
             (_started ?? false))
         {
@@ -161,5 +162,11 @@ public class WeatherFlowWebsocketClient : IDisposable
         }
 
         _websocketClient?.Dispose();
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

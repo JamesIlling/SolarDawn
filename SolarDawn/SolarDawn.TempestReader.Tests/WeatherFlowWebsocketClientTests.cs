@@ -363,6 +363,8 @@ public class WeatherFlowWebsocketClientTests
     {
         var weatherFlowWebsocketClient = SetupNoClient();
         weatherFlowWebsocketClient.Dispose();
+        Assert.True(true); // Assertation that we get to the end as exception would cause error
+
     }
 
     [Fact]
