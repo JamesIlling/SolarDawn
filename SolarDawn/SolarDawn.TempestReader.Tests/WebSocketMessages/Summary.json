@@ -1,0 +1,18 @@
+{
+  "pressure_trend": "falling",
+  "strike_count_1h": 0,
+  "strike_count_3h": 0,
+  "precip_total_1h": 0.0,
+  "precip_accum_local_yesterday": 0.0,
+  "precip_analysis_type_yesterday": 0,
+  "feels_like": 19.4,
+  "heat_index": 19.4,
+  "wind_chill": 19.4,
+  "dew_point": 8.1,
+  "wet_bulb_temperature": 13.1,
+  "wet_bulb_globe_temperature": 15.4,
+  "air_density": 1.19625,
+  "delta_t": 6.3,
+  "precip_minutes_local_day": 0,
+  "precip_minutes_local_yesterday": 0
+}
