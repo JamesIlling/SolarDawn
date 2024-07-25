@@ -23,7 +23,7 @@ public class WeatherFlowWebsocketClientTests
 
     private const int Delay = 100;
 
-    private Mock<IWebsocketClient> SetupWebSocketClient()
+    private static Mock<IWebsocketClient> SetupWebSocketClient()
     {
         var mockClient = new Mock<IWebsocketClient>();
         mockClient.SetupProperty(x => x.DisconnectionHappened, new Subject<DisconnectionInfo>());
